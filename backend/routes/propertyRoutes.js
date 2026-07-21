@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { createProperty, deleteProperty, listProperties, updateProperty } from '../controllers/propertyController.js';
+import { adminOnly, protect } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { propertyRules } from '../validators/propertyValidators.js';
+const router=Router();
+router.use(protect);
+router.route('/').get(listProperties).post(propertyRules,validate,createProperty);
+router.route('/:id').put(propertyRules,validate,updateProperty).delete(adminOnly,deleteProperty);
+export default router;

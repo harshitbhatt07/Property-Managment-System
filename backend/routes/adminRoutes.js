@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { body } from 'express-validator';
+import { agents, dashboard, requests, updateAgentStatus } from '../controllers/adminController.js';
+import { adminOnly, protect } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+const router=Router();
+router.use(protect,adminOnly);
+router.get('/dashboard',dashboard);
+router.get('/agents',agents);
+router.get('/agent-requests',requests);
+router.patch('/agents/:id/status',body('status').isIn(['approved','blocked']),validate,updateAgentStatus);
+export default router;
